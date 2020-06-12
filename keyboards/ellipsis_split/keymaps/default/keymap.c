@@ -15,16 +15,37 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 void keyboard_post_init_user(void) {
 	if(is_keyboard_master()) {
 		oled_init(OLED_ROTATION_270);
+
+		oled_clear();
+		for(uint8_t i = 0; i < 4; i++) {
+			for(uint8_t j = 0; j < 4; j++) {
+				oled_set_cursor(i, j);
+				oled_write_char('B', false);
+			}
+		}
+		oled_render();
 	}
-	oled_clear();
-    oled_write_P(PSTR("HI"), false);
-	oled_render();
+}
+
+void oled_task_user(void) {
+	for(uint8_t i = 0; i < 4; i++) {
+		for(uint8_t j = 0; j < 4; j++) {
+			oled_set_cursor(i, j);
+			oled_write_char('D', false);
+		}
+	}
+}
+
+void matrix_scan_user(void) {
+	if(is_keyboard_master()) {
+		oled_task();
+	}
 }
 
 #ifdef CONSOLE_ENABLE
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  // If console is enabled, it will print the matrix position and status of each key pressed
+	// If console is enabled, it will print the matrix position and status of each key pressed
     uprintf("KL: kc: %u, col: %u, row: %u, pressed: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed);
-  return true;
+  	return true;
 }
 #endif 
