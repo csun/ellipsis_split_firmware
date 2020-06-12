@@ -1,5 +1,6 @@
 #include QMK_KEYBOARD_H
 #include <print.h>
+#include "drivers/oled/oled_driver.h"
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[0] = LAYOUT_all(
@@ -11,12 +12,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	)
 };
 
-#ifdef OLED_DRIVER_ENABLE
-void oled_task_user(void) {
-    // Host Keyboard Layer Status
+void keyboard_post_init_user(void) {
+	if(is_keyboard_master()) {
+		oled_init(OLED_ROTATION_270);
+	}
+	oled_clear();
     oled_write_P(PSTR("HI"), false);
+	oled_render();
 }
-#endif
 
 #ifdef CONSOLE_ENABLE
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {

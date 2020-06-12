@@ -11,8 +11,10 @@
 #define PRODUCT         Ellipsis Split
 
 #define EE_HANDS
+// #define SPLIT_USB_DETECT  // This doesn't seem to be working. Maybe an elite-c problem
 #define MASTER_LEFT
-// #define USE_I2C
+
+// #define USE_I2C  // oled_driver should include this itself
 #define SOFT_SERIAL_PIN D2
 
 #define MATRIX_ROWS 10 // Double for split
@@ -28,5 +30,9 @@
 
 /* COL2ROW or ROW2COL */
 #define DIODE_DIRECTION ROW2COL
+
+#ifdef OLED_DRIVER_ENABLE
+#   define OLED_FONT_H "keyboards/ellipsis_split/glcdfont.c"
+#endif
 
 #endif
