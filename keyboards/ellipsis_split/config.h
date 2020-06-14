@@ -31,6 +31,4 @@
 /* COL2ROW or ROW2COL */
 #define DIODE_DIRECTION ROW2COL
 
-#define OLED_FONT_H "keyboards/ellipsis_split/glcdfont.c"
-
 #endif
