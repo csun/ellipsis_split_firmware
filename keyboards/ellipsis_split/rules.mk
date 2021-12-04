@@ -9,13 +9,13 @@ ARCH = AVR8
 
 # Because we have one half without an oled, need to hook the oled stuff
 # up manually into the event loop rather than using OLED_DRIVER_ENABLE
-LIB_SRC += drivers/oled/oled_driver.c
+LIB_SRC += drivers/oled/ssd1306_sh1106.c
 
 # Build Options
 #   comment out to disable the options.
 #
 SPLIT_KEYBOARD   = yes
-OLED_DRIVER_ENABLE = no # We use our own stuff here to overcome the fact that the right half uses i2c pins for matrix
+OLED_ENABLE = no # We use our own stuff here to overcome the fact that the right half uses i2c pins for matrix
 
 MOUSEKEY_ENABLE  = no # Mouse keys(+4700)
 EXTRAKEY_ENABLE  = yes # Audio control and System control(+450)
@@ -24,4 +24,4 @@ COMMAND_ENABLE   = no # Commands for debug and configuration
 NKRO_ENABLE      = no # USB Nkey Rollover - if this doesn't work, see here: https://github.com/tmk/tmk_keyboard/wiki/FAQ#nkro-doesnt-work
 UNICODE_ENABLE   = no # Unicode
 
-DEBOUNCE_TYPE    = sym_eager_pk
+DEBOUNCE_TYPE    = asym_eager_defer_pk

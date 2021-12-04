@@ -15,7 +15,7 @@ enum layers {
 enum keycodes {
 	KC_CYCLE_SPACE = SAFE_RANGE,
 	KC_RAISE,
-	KC_NUM
+	KC_NUM_CUSTOM
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -27,7 +27,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		KC_LCTL,  KC_LGUI, KC_LALT, KC_RAISE, KC_LSFT, MO(_LOWER_WIN), KC_ENT, KC_SPC, KC_BSPC,  MO(_LOWER_WIN), KC_RCTL, KC_LEFT, KC_DOWN, KC_RIGHT
 	),
 	[_LOWER_WIN] = LAYOUT_all(
-		KC_TRNS,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,        KC_F6,                           KC_NUM,  KC_F7,    KC_F8,        KC_F9,    KC_F10,    KC_TRNS, KC_TRNS,  KC_TRNS,
+		KC_TRNS,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,        KC_F6,                           KC_NUM_CUSTOM,  KC_F7,    KC_F8,        KC_F9,    KC_F10,    KC_TRNS, KC_TRNS,  KC_TRNS,
 		KC_TRNS,   KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        TG(_MAC), KC_TRNS, KC_TRNS,    KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS,    LCTL(KC_PGUP), LCTL(KC_PGDN), KC_TRNS,
 		KC_CAPS, KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_CYCLE_SPACE, KC_TRNS, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT,    KC_TRNS, KC_TRNS, KC_TRNS,  KC_AUDIO_VOL_UP,
 		KC_TRNS,  KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,  KC_TRNS, KC_TRNS,   KC_TRNS,        KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS,   KC_AUDIO_VOL_DOWN,
@@ -41,7 +41,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		KC_TRNS,  KC_LALT, KC_LGUI, KC_TRNS, KC_TRNS, MO(_LOWER_MAC), KC_TRNS, KC_TRNS, KC_TRNS,  MO(_LOWER_MAC), KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
 	),
 	[_LOWER_MAC] = LAYOUT_all(
-		KC_TRNS,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,        KC_F6,                           KC_NUM,  KC_F7,    KC_F8,        KC_F9,    KC_F10,    KC_TRNS, KC_TRNS,  KC_TRNS,
+		KC_TRNS,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,        KC_F6,                           KC_NUM_CUSTOM,  KC_F7,    KC_F8,        KC_F9,    KC_F10,    KC_TRNS, KC_TRNS,  KC_TRNS,
 		KC_TRNS,   KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        TG(_MAC), KC_TRNS, KC_TRNS,    KC_TRNS,        KC_TRNS,    KC_TRNS,    KC_TRNS, LGUI(LSFT(KC_LBRC)), LGUI(LSFT(KC_RBRC)), KC_TRNS,
 		KC_CAPS, KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_CYCLE_SPACE, KC_TRNS, KC_LEFT,    KC_DOWN,        KC_UP,    KC_RIGHT,    KC_TRNS, KC_TRNS, KC_TRNS,  KC__VOLUP,
 		KC_TRNS,  KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,        KC_TRNS,  KC_TRNS, KC_TRNS,   KC_TRNS,        KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS,   KC__VOLDOWN,
@@ -224,13 +224,14 @@ void draw_locks(uint16_t start) {
     }
 }
 
-void oled_task_user(void) {
+bool oled_task_user(void) {
 	if(is_keyboard_master()) {
 		draw_base(0);
 		draw_raise_lower(GFX_SIZE);
 		draw_thumbs(2* GFX_SIZE);
 		draw_locks(3* GFX_SIZE);
 	}
+	return false;
 }
 
 void matrix_scan_user(void) {
@@ -309,7 +310,7 @@ bool process_raise(uint16_t kc, keyrecord_t *record) {
 }
 
 bool process_num(uint16_t keycode, keyrecord_t *record) {
-	if(keycode == KC_NUM && record->event.pressed) {
+	if(keycode == KC_NUM_CUSTOM && record->event.pressed) {
 		tap_code(KC_NUMLOCK);
 		layer_invert(_NUM);
 		return false;

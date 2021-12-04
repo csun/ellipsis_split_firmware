@@ -14,6 +14,10 @@
 // #define SPLIT_USB_DETECT  // This doesn't seem to be working. Maybe an elite-c problem
 #define MASTER_LEFT
 
+// Default debounce of 5 seems to be too little
+#define DEBOUNCE 12
+
+
 // #define USE_I2C  // oled_driver should include this itself
 #define SOFT_SERIAL_PIN D2
 
